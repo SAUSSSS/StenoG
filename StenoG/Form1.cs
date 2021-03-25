@@ -131,5 +131,21 @@ namespace StenoG
         {
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            backgroundWorker1.CancelAsync();
+            backgroundWorker2.CancelAsync();
+            backgroundWorker3.CancelAsync();
+            backgroundWorker4.CancelAsync();
+            backgroundWorker5.CancelAsync();
+            backgroundWorker6.CancelAsync();
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            ProcessImg prc_im = new FormChannelsInverted();
+            backgroundWorker1.RunWorkerAsync(prc_im);
+        }
     }
 }

@@ -53,9 +53,13 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="FormChannelB.cs" />
+    <Compile Include="FormChannelB_Inverted.cs" />
     <Compile Include="FormChannelG.cs" />
+    <Compile Include="FormChannelG_Inverted.cs" />
     <Compile Include="FormChannelR.cs" />
+    <Compile Include="FormChannelR_Inverted.cs" />
     <Compile Include="FormChannels.cs" />
+    <Compile Include="FormChannelsInverted.cs" />
     <Compile Include="FormChannelX.cs" />
     <Compile Include="ProcessImg.cs" />
     <Compile Include="Program.cs" />

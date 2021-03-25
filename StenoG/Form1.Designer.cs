@@ -102,7 +102,7 @@ namespace StenoG
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(12, 63);
+            this.pictureBox1.Location = new System.Drawing.Point(16, 52);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(400, 400);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -111,7 +111,7 @@ namespace StenoG
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(445, 63);
+            this.pictureBox2.Location = new System.Drawing.Point(447, 52);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(400, 400);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -120,7 +120,7 @@ namespace StenoG
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(860, 63);
+            this.pictureBox3.Location = new System.Drawing.Point(870, 52);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(400, 400);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -130,7 +130,7 @@ namespace StenoG
             // 
             // pictureBox4
             // 
-            this.pictureBox4.Location = new System.Drawing.Point(1351, 63);
+            this.pictureBox4.Location = new System.Drawing.Point(1301, 52);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(400, 400);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -149,12 +149,13 @@ namespace StenoG
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(706, 627);
+            this.button2.Location = new System.Drawing.Point(729, 627);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(89, 36);
             this.button2.TabIndex = 6;
             this.button2.Text = "STOP";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
@@ -229,6 +230,7 @@ namespace StenoG
             this.button10.TabIndex = 14;
             this.button10.Text = "Show RGB Inverted";
             this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // button11
             // 
@@ -241,7 +243,7 @@ namespace StenoG
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 627);
+            this.progressBar1.Location = new System.Drawing.Point(16, 627);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(688, 36);
             this.progressBar1.TabIndex = 16;
