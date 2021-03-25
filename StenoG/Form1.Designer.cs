@@ -165,6 +165,7 @@ namespace StenoG
             this.button3.TabIndex = 7;
             this.button3.Text = "Encod RAW Image";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
             // 
@@ -203,6 +204,7 @@ namespace StenoG
             this.button7.TabIndex = 11;
             this.button7.Text = "Decode image";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button8
             // 
@@ -212,6 +214,7 @@ namespace StenoG
             this.button8.TabIndex = 12;
             this.button8.Text = "Load Raw Image";
             this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // button9
             // 
@@ -279,6 +282,9 @@ namespace StenoG
             // 
             this.backgroundWorker2.WorkerReportsProgress = true;
             this.backgroundWorker2.WorkerSupportsCancellation = true;
+            this.backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker2_DoWork);
+            this.backgroundWorker2.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker2_ProgressChanged);
+            this.backgroundWorker2.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker2_RunWorkerCompleted);
             // 
             // backgroundWorker3
             // 

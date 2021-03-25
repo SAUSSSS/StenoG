@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DecodeImg.cs" />
     <Compile Include="DiffWithOrigin.cs" />
+    <Compile Include="EncodeRawImg.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

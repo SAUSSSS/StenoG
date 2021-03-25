@@ -232,5 +232,98 @@ namespace StenoG
             progressBar1.Value = 0;
 
         }
+        static string src_text_file;
+        private void button3_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Text files (*.txt)|*.txt|All files(*.*)|*.*";
+            dialog.Title = "Open a Text File";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                src_text_file = dialog.FileName;
+            }
+            ProcessImg prc_im = new EncodeRawImg();
+            backgroundWorker2.RunWorkerAsync(prc_im);
+
+        }
+        public static void ShowMsgBox(string input)
+        {
+            MessageBox.Show(input);
+        }
+
+        public static int img_size()
+        {
+            if (image == null)
+                return 0;
+            return image.Width * image.Height;
+        }
+
+        public static string input_file_name()
+        {
+            return src_text_file;
+        }
+
+        Bitmap image_encoded_raw;
+        private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ProcessImg prc_im = (ProcessImg)e.Argument;
+            prc_im.processImage(image, ref backgroundWorker2);
+            if (backgroundWorker2.CancellationPending != true)
+            {
+                image_encoded_raw = prc_im.get_image_raw();
+                image = image_encoded_raw;
+            }
+        }
+
+        private void backgroundWorker2_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+        }
+
+        private void backgroundWorker2_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (!e.Cancelled)
+            {
+                pictureBox1.Image = image;
+                pictureBox1.Refresh();
+                toolStripStatusLabel1.Text = "Raw image encoding has just completed";
+            }
+            else
+            {
+                toolStripStatusLabel1.Text = "Raw image encoding was cancelled";
+            }
+            progressBar1.Value = 0;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (image_encoded_raw == null)
+            {
+                MessageBox.Show("Raw image is empty!");
+                return;
+            }
+            image = image_encoded_raw;
+            pictureBox1.Image = image;
+            pictureBox1.Refresh();
+        }
+        static string ejected_text_file;
+        private void button7_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "Text files (*.txt)|*.txt";
+            dialog.Title = "Save a Text File";
+            dialog.ShowDialog();
+
+            if (dialog.FileName != "")
+            {
+                System.IO.FileStream fs =
+                    (System.IO.FileStream)dialog.OpenFile();
+                fs.Close();
+            }
+            ejected_text_file = dialog.FileName;
+            ProcessImg prc_im = new DecodeImg();
+            backgroundWorker4.RunWorkerAsync(prc_im);
+        }
     }
 }
