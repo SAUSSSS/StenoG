@@ -52,6 +52,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormChannelB.cs" />
+    <Compile Include="FormChannelG.cs" />
+    <Compile Include="FormChannelR.cs" />
+    <Compile Include="FormChannels.cs" />
+    <Compile Include="FormChannelX.cs" />
+    <Compile Include="ProcessImg.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
