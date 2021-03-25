@@ -184,5 +184,141 @@ namespace StenoG
             index++;
         }
 
+        string label_start = "St@rT";
+        string label_end = "4IniSh";
+        string strMessage;
+        public void EjectTextFromImage(Bitmap src, ref BackgroundWorker worker)
+        {
+            // Считываем из картинки текст длиной, равной размеру текста из исходного      // файла, которую мы запомнили в переменной text_size во время записи его 
+            // содержимого в изображение. В данный размер включены также и длины меток 
+            // начала и конца сообщения, поскольку они уже присутствовали в исходном 
+            // тексте.
+            //В двойном цикле считываем в подготовленный массив байт отведённого 
+            //размера (temp_message) символы, закодированные в пикселах изображения. 
+            //После этого полученный массив байт переводим в строку 
+            //(temp_str_message), применяя кодировку ASCII, поскольку её достаточно 
+            //для работы с текстом, состоящим из латинских букв и знаков препинания. 
+            byte[] temp_message = new byte[text_size];
+            int i = 0, j = 0;
+            int msg_ind = 0;
+            bool stop = false;
+            for (; i < src.Width; i++)
+            {
+                worker.ReportProgress((int)((float)i / src.Width * 33));
+                if (worker.CancellationPending)
+                    return;
+                for (j = 0; j < src.Height; j++)
+                {
+                    if (msg_ind == text_size)
+                    {
+                        stop = true;
+                        break;
+                    }
+                    temp_message[msg_ind] = Bit2Byte(DecodeSymbol(ref src,
+                        ref i, ref j));
+                    msg_ind++;
+                }
+                if (stop) break;
+            }
+            string temp_str_message = Encoding.ASCII.GetString(temp_message);
+
+            // Ищем в тексте метку начала. Только если она будет найдена, 
+            //декодирование будем считать успешным. Поиск будет проводиться на строках 
+            //(string) для наглядности. Пока не дойдём до конца строки 
+            //temp_str_message, движемся от её начала и берём из неё подстроку длины 
+            //метки начала. Сравниваем эту подстроку с меткой начала. Если строки 
+            //совпадают, отмечаем, что метка начала найдена успешно.
+            msg_ind = 0;
+            bool start_reading = false;
+            while (msg_ind <= temp_str_message.Length)
+            {
+                worker.ReportProgress((int)((float)msg_ind / temp_str_message.Length
+                    * 33 + 33));
+                if (worker.CancellationPending)
+                    return;
+                if (label_start == temp_str_message.Substring(msg_ind,
+                    label_start.Length))
+                {
+                    msg_ind += label_start.Length;
+                    start_reading = true;
+                    break;
+                }
+                else msg_ind++;
+            }
+
+            // Если метка начала найдена успешно, ищем метку конца, считывая 
+            //информацию из изображения. Поиск метки конца сообщения проводится по 
+            //тому же принципу. Если в итоге метка не была найдена, выводим на экран 
+            //сообщение об этом, но весь считанный текст всё равно, как и при её 
+            //успешном поиске, записываем в файл.
+            //Прогресс выполнения в данной функции разделён на три части: по 
+            //количеству отдельных операций. Третья из долей расположена в методе 
+            //WriteText.
+            bool stop_found = false;
+            int begin_ind = msg_ind;
+            if (start_reading)
+            {
+                while (msg_ind <= temp_str_message.Length)
+                {
+                    worker.ReportProgress(Clamp((int)((float)msg_ind
+                        / temp_str_message.Length * 33 + 66), 0, 100));
+                    if (worker.CancellationPending)
+                        return;
+                    if (label_end == temp_str_message.Substring(msg_ind,
+                        label_end.Length))
+                    {
+                        stop_found = true;
+                        strMessage = temp_str_message.Substring(begin_ind, msg_ind
+                            - begin_ind);
+                        break;
+                    }
+                    else msg_ind++;
+                }
+                if (!stop_found)
+                {
+                    strMessage = temp_str_message.Substring(begin_ind,
+                        temp_str_message.Length - begin_ind);
+                    Form1.ShowMsgBox("End label NOT found, text EJECTED!");
+                }
+            }
+            else
+            {
+                Form1.ShowMsgBox("Text not found!");
+                return;
+            }
+            WriteText();
+        }
+
+        private void WriteText()
+        {
+            byte[] temp_message = Encoding.ASCII.GetBytes(strMessage);
+            FileStream SourceStream = File.Open(Form1.ejected_file_name(),
+                FileMode.Create);
+            SourceStream.Seek(0, SeekOrigin.Begin);
+            SourceStream.Write(temp_message, 0, temp_message.Length);
+            SourceStream.Close();
+        }
+
+        private BitArray DecodeSymbol(ref Bitmap src, ref int i, ref int j)
+        {
+            Color pixelColor = src.GetPixel(i, j);
+
+            BitArray colorArray = Byte2Bit(pixelColor.R);
+            BitArray messageArray = Byte2Bit(pixelColor.R);
+            messageArray[0] = colorArray[0];
+            messageArray[1] = colorArray[1];
+
+            colorArray = Byte2Bit(pixelColor.G);
+            messageArray[2] = colorArray[0];
+            messageArray[3] = colorArray[1];
+            messageArray[4] = colorArray[2];
+
+            colorArray = Byte2Bit(pixelColor.B);
+            messageArray[5] = colorArray[0];
+            messageArray[6] = colorArray[1];
+            messageArray[7] = colorArray[2];
+            return messageArray;
+        }
+
     }
 }

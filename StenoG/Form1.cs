@@ -41,7 +41,8 @@ namespace StenoG
 
         private void backgroundWorker4_DoWork(object sender, DoWorkEventArgs e)
         {
-
+            ProcessImg prc_im = (ProcessImg)e.Argument;
+            prc_im.processImage(image, ref backgroundWorker4, true);
         }
 
         private void fileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -324,6 +325,29 @@ namespace StenoG
             ejected_text_file = dialog.FileName;
             ProcessImg prc_im = new DecodeImg();
             backgroundWorker4.RunWorkerAsync(prc_im);
+        }
+
+        public static string ejected_file_name()
+        {
+            return ejected_text_file;
+        }
+
+        private void backgroundWorker4_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+        }
+
+        private void backgroundWorker4_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (!e.Cancelled)
+            {
+                toolStripStatusLabel1.Text = "Image decoding has just completed";
+            }
+            else
+            {
+                toolStripStatusLabel1.Text = "Image decoding was cancelled";
+            }
+            progressBar1.Value = 0;
         }
     }
 }
