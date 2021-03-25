@@ -20,6 +20,9 @@ namespace StenoG
         Bitmap image_g;
         Bitmap image_b;
 
+
+        Bitmap diff_img;
+
         public Form1()
         {
             InitializeComponent();
@@ -124,7 +127,14 @@ namespace StenoG
 
         private void button5_Click(object sender, EventArgs e)
         {
-
+            if (image_original == null)
+            {
+                MessageBox.Show("Original image is empty!");
+                return;
+            }
+            image = image_original;
+            pictureBox1.Image = image;
+            pictureBox1.Refresh();
         }
 
         private void button9_Click(object sender, EventArgs e)
@@ -146,6 +156,81 @@ namespace StenoG
         {
             ProcessImg prc_im = new FormChannelsInverted();
             backgroundWorker1.RunWorkerAsync(prc_im);
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            ProcessImg prc_im = new LSB4Img();
+            backgroundWorker5.RunWorkerAsync(prc_im);
+        }
+
+        private void backgroundWorker5_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ProcessImg prc_im = (ProcessImg)e.Argument;
+            prc_im.processImage(image, ref backgroundWorker5);
+            if (backgroundWorker5.CancellationPending != true)
+            {
+                image = prc_im.get_image_LSB();
+            }
+
+        }
+
+        private void backgroundWorker5_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+        }
+
+        private void backgroundWorker5_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (!e.Cancelled)
+            {
+                pictureBox1.Image = image;
+                pictureBox1.Refresh();
+                toolStripStatusLabel1.Text = "LSB retrieving has just completed";
+            }
+            else
+            {
+                toolStripStatusLabel1.Text = "LSB retrieving was cancelled";
+            }
+            progressBar1.Value = 0;
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            ProcessImg prc_im = new DiffWithOrigin();
+            backgroundWorker6.RunWorkerAsync(prc_im);
+        }
+
+        private void backgroundWorker6_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ProcessImg prc_im = (ProcessImg)e.Argument;
+            prc_im.processImage(image, image_original, backgroundWorker6);
+            if (backgroundWorker6.CancellationPending != true)
+            {
+                diff_img = prc_im.get_image_diff();
+                image = diff_img;
+            }
+        }
+
+        private void backgroundWorker6_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+        }
+
+        private void backgroundWorker6_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (!e.Cancelled)
+            {
+                pictureBox1.Image = image;
+                pictureBox1.Refresh();
+                toolStripStatusLabel1.Text = "Computing of the difference against original image has just completed";
+            }
+            else
+            {
+                toolStripStatusLabel1.Text = "Computing of the difference against original image was cancelled";
+            }
+            progressBar1.Value = 0;
+
         }
     }
 }

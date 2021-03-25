@@ -193,6 +193,7 @@ namespace StenoG
             this.button6.TabIndex = 10;
             this.button6.Text = "Make LSB";
             this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button7
             // 
@@ -240,6 +241,7 @@ namespace StenoG
             this.button11.TabIndex = 15;
             this.button11.Text = "Difference with origin";
             this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // progressBar1
             // 
@@ -293,11 +295,17 @@ namespace StenoG
             // 
             this.backgroundWorker5.WorkerReportsProgress = true;
             this.backgroundWorker5.WorkerSupportsCancellation = true;
+            this.backgroundWorker5.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker5_DoWork);
+            this.backgroundWorker5.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker5_ProgressChanged);
+            this.backgroundWorker5.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker5_RunWorkerCompleted);
             // 
             // backgroundWorker6
             // 
             this.backgroundWorker6.WorkerReportsProgress = true;
             this.backgroundWorker6.WorkerSupportsCancellation = true;
+            this.backgroundWorker6.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker6_DoWork);
+            this.backgroundWorker6.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker6_ProgressChanged);
+            this.backgroundWorker6.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker6_RunWorkerCompleted);
             // 
             // Form1
             // 
