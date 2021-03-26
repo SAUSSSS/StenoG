@@ -407,5 +407,12 @@ namespace StenoG
             return messageArray;
         }
 
+        public Bitmap EncodeNoisedImage(Bitmap src, ref BackgroundWorker worker)
+        {
+
+
+            return src;
+        }
+
     }
 }

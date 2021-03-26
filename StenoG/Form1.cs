@@ -140,7 +140,14 @@ namespace StenoG
 
         private void button9_Click(object sender, EventArgs e)
         {
-
+            if (image_encoded_noised == null)
+            {
+                MessageBox.Show("Noised image is empty!");
+                return;
+            }
+            image = image_encoded_noised;
+            pictureBox1.Image = image;
+            pictureBox1.Refresh();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -346,6 +353,52 @@ namespace StenoG
             else
             {
                 toolStripStatusLabel1.Text = "Image decoding was cancelled";
+            }
+            progressBar1.Value = 0;
+        }
+        Bitmap image_encoded_noised;
+        private void button4_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Text files (*.txt)|*.txt|All files(*.*)|*.*";
+            dialog.Title = "Open a Text File";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                src_text_file = dialog.FileName;
+            }
+            ProcessImg prc_im = new EncodeNoisedImg();
+            backgroundWorker3.RunWorkerAsync(prc_im);
+        }
+
+        private void backgroundWorker3_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ProcessImg prc_im = (ProcessImg)e.Argument;
+            prc_im.processImage(image, ref backgroundWorker3);
+            if (backgroundWorker3.CancellationPending != true)
+            {
+                image_encoded_noised = prc_im.get_image_noised();
+                image = image_encoded_noised;
+            }
+        }
+
+        private void backgroundWorker3_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+        }
+
+        private void backgroundWorker3_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (!e.Cancelled)
+            {
+                pictureBox1.Image = image;
+                pictureBox1.Refresh();
+                toolStripStatusLabel1.Text =
+                    "Noised image encoding has just completed";
+            }
+            else
+            {
+                toolStripStatusLabel1.Text = "Noised image encoding was cancelled";
             }
             progressBar1.Value = 0;
         }
