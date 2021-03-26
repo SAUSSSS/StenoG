@@ -186,112 +186,199 @@ namespace StenoG
 
         string label_start = "St@rT";
         string label_end = "4IniSh";
-        string strMessage;
+        string str_message;
         public void EjectTextFromImage(Bitmap src, ref BackgroundWorker worker)
         {
-            // Считываем из картинки текст длиной, равной размеру текста из исходного      // файла, которую мы запомнили в переменной text_size во время записи его 
-            // содержимого в изображение. В данный размер включены также и длины меток 
-            // начала и конца сообщения, поскольку они уже присутствовали в исходном 
-            // тексте.
-            //В двойном цикле считываем в подготовленный массив байт отведённого 
-            //размера (temp_message) символы, закодированные в пикселах изображения. 
-            //После этого полученный массив байт переводим в строку 
-            //(temp_str_message), применяя кодировку ASCII, поскольку её достаточно 
-            //для работы с текстом, состоящим из латинских букв и знаков препинания. 
-            byte[] temp_message = new byte[text_size];
-            int i = 0, j = 0;
-            int msg_ind = 0;
+            long text_size_local = 0;
+            int start_label_ends_i = 0, start_label_ends_j = 0;
+            bool start_label_found = false;
             bool stop = false;
-            for (; i < src.Width; i++)
+
+            // Ищем в изображении метку начала
+
+            for (int i_ = 0; i_ < src.Width; i_++)
             {
-                worker.ReportProgress((int)((float)i / src.Width * 33));
+                worker.ReportProgress((int)((float)i_ / src.Width * 33));
                 if (worker.CancellationPending)
                     return;
-                for (j = 0; j < src.Height; j++)
+                for (int j_ = 0; j_ < src.Height; j_++)
                 {
-                    if (msg_ind == text_size)
+                    byte[] byte_label_start = new byte[label_start.Length];
+                    int label_ind = 0;
+                    while (label_ind < label_start.Length)
                     {
+                        if (j_ + label_ind > src.Height - 1)
+                        {
+                            if (i_ + 1 < src.Width)
+                            {
+                                int add2j_ = label_ind - (src.Height - 1 - j_ - 1);
+                                start_label_ends_i = i_ + 1;
+                                start_label_ends_j = j_ + add2j_;
+                            }
+                            else
+                            {
+                                Form1.ShowMsgBox("Start label not found!");
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            start_label_ends_i = i_;
+                            start_label_ends_j = j_ + label_ind;
+                        }
+                        byte_label_start[label_ind] = Bit2Byte(DecodeSymbol(ref src,
+                            ref start_label_ends_i, ref start_label_ends_j));
+                        label_ind++;
+                    }
+                    string str_label_start = Encoding.ASCII.GetString(byte_label_start
+                        ); //     UTF8 // ASCII
+                    if (str_label_start == label_start)
+                    {
+                        start_label_found = true;
                         stop = true;
                         break;
                     }
-                    temp_message[msg_ind] = Bit2Byte(DecodeSymbol(ref src,
-                        ref i, ref j));
-                    msg_ind++;
                 }
                 if (stop) break;
             }
-            string temp_str_message = Encoding.ASCII.GetString(temp_message);
-
-            // Ищем в тексте метку начала. Только если она будет найдена, 
-            //декодирование будем считать успешным. Поиск будет проводиться на строках 
-            //(string) для наглядности. Пока не дойдём до конца строки 
-            //temp_str_message, движемся от её начала и берём из неё подстроку длины 
-            //метки начала. Сравниваем эту подстроку с меткой начала. Если строки 
-            //совпадают, отмечаем, что метка начала найдена успешно.
-            msg_ind = 0;
-            bool start_reading = false;
-            while (msg_ind <= temp_str_message.Length)
+            if (!start_label_found)
             {
-                worker.ReportProgress((int)((float)msg_ind / temp_str_message.Length
-                    * 33 + 33));
-                if (worker.CancellationPending)
-                    return;
-                if (label_start == temp_str_message.Substring(msg_ind,
-                    label_start.Length))
-                {
-                    msg_ind += label_start.Length;
-                    start_reading = true;
-                    break;
-                }
-                else msg_ind++;
+                Form1.ShowMsgBox("Text error 1 !");
+                return;
             }
 
-            // Если метка начала найдена успешно, ищем метку конца, считывая 
-            //информацию из изображения. Поиск метки конца сообщения проводится по 
-            //тому же принципу. Если в итоге метка не была найдена, выводим на экран 
-            //сообщение об этом, но весь считанный текст всё равно, как и при её 
-            //успешном поиске, записываем в файл.
-            //Прогресс выполнения в данной функции разделён на три части: по 
-            //количеству отдельных операций. Третья из долей расположена в методе 
-            //WriteText.
-            bool stop_found = false;
-            int begin_ind = msg_ind;
-            if (start_reading)
+            // Ищем в изображении метку конца
+
+            int end_label_ends_i = 0, end_label_ends_j = 0;
+            bool end_label_found = false;
+            stop = false;
+            int ii_ = 0, jj_ = 0;
+            if (start_label_ends_j == src.Height - 1)
             {
-                while (msg_ind <= temp_str_message.Length)
-                {
-                    worker.ReportProgress(Clamp((int)((float)msg_ind
-                        / temp_str_message.Length * 33 + 66), 0, 100));
-                    if (worker.CancellationPending)
-                        return;
-                    if (label_end == temp_str_message.Substring(msg_ind,
-                        label_end.Length))
-                    {
-                        stop_found = true;
-                        strMessage = temp_str_message.Substring(begin_ind, msg_ind
-                            - begin_ind);
-                        break;
-                    }
-                    else msg_ind++;
-                }
-                if (!stop_found)
-                {
-                    strMessage = temp_str_message.Substring(begin_ind,
-                        temp_str_message.Length - begin_ind);
-                    Form1.ShowMsgBox("End label NOT found, text EJECTED!");
-                }
+                start_label_ends_j = 0;
+                start_label_ends_i++;
             }
             else
             {
-                Form1.ShowMsgBox("Text not found!");
+                start_label_ends_j++;
+            }
+
+            for (ii_ = start_label_ends_i; ii_ < src.Width; ii_++)
+            {
+                worker.ReportProgress((int)((float)ii_ / src.Width * 33));
+                if (worker.CancellationPending)
+                    return;
+                jj_ = 0;
+                if (ii_ == start_label_ends_i) jj_ = start_label_ends_j;
+                for (; jj_ < src.Height; jj_++)
+                {
+                    byte[] byte_label_end = new byte[label_end.Length];
+                    int label_ind = 0;
+                    while (label_ind < label_end.Length)
+                    {
+                        if (jj_ + label_ind > src.Height - 1)
+                        {
+                            if (ii_ + 1 < src.Width)
+                            {
+                                int add2j_ = label_ind - (src.Height - 1 - jj_ - 1);
+                                end_label_ends_i = ii_ + 1;
+                                end_label_ends_j = add2j_;
+                            }
+                            else
+                            {
+                                Form1.ShowMsgBox("End label not found!");
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            end_label_ends_i = ii_;
+                            end_label_ends_j = jj_ + label_ind;
+                        }
+                        byte_label_end[label_ind] = Bit2Byte(DecodeSymbol(ref src,
+                            ref end_label_ends_i, ref end_label_ends_j));
+                        label_ind++;
+                    }
+                    string str_label_end = Encoding.ASCII.GetString(byte_label_end
+                        ); // UTF8 // ASCII
+                    if (str_label_end == label_end)
+                    {
+                        end_label_found = true;
+                        stop = true;
+                        break;
+                    }
+                    text_size_local++;
+                }
+                if (stop) break;
+            }
+            if (!end_label_found)
+            {
+                Form1.ShowMsgBox("Text error 2 !");
                 return;
             }
+
+            int text_ends_i = 0, text_ends_j = 0;
+            if (jj_ == 0)
+            {
+                if (ii_ > 0)
+                {
+                    text_ends_i = ii_ - 1;
+                }
+                else
+                {
+                    Form1.ShowMsgBox("Text error 3 !");
+                    return;
+                }
+                text_ends_j = src.Height - 1;
+            }
+            else
+            {
+                text_ends_i = ii_;
+                if (jj_ > 0)
+                {
+                    text_ends_j = jj_ - 1;
+                }
+                else
+                {
+                    Form1.ShowMsgBox("Text error 4 !");
+                    return;
+                }
+            }
+
+            Form1.ShowMsgBox("Labels detection done!");
+
+            // Считываем из изображения текст между метками
+
+            stop = false;
+            byte[] message = new byte[text_size_local];
+            int message_ind = 0;
+            for (int i_ = start_label_ends_i; i_ < src.Width; i_++)
+            {
+                worker.ReportProgress((int)((float)i_ / src.Width * 33));
+                if (worker.CancellationPending)
+                    return;
+                int j_ = 0;
+                if (i_ == start_label_ends_i) j_ = start_label_ends_j;
+                for (; j_ < src.Height; j_++)
+                {
+                    if (message_ind > text_size_local - 1)
+                    {
+                        break;
+                        stop = true;
+                    }
+                    message[message_ind] = Bit2Byte(DecodeSymbol(ref src, ref i_, ref j_));
+                    str_message = Encoding.ASCII.GetString(message); // UTF8 // ASCII
+                    message_ind++;
+                }
+                if (stop) break;
+            }
+
             WriteText();
         }
 
         private void WriteText()
         {
-            byte[] temp_message = Encoding.ASCII.GetBytes(strMessage);
+            byte[] temp_message = Encoding.ASCII.GetBytes(str_message);
             FileStream SourceStream = File.Open(Form1.ejected_file_name(),
                 FileMode.Create);
             SourceStream.Seek(0, SeekOrigin.Begin);
