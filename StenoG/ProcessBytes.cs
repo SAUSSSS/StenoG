@@ -100,12 +100,12 @@ namespace StenoG
             }
 
             Bitmap res = new Bitmap(src);
-            int i = 25, j = 25;
+            int i = 0, j = 0;
 
             // write text into image
             bool stop = false;
             int text_ind = 0;
-            for (; i < src.Width; i++)
+            for (i = 25; i < src.Width; i++)
             {
                 worker.ReportProgress(Clamp((int)((float)i / src.Width * 50 + 50),
                     0, 100));
@@ -206,7 +206,7 @@ namespace StenoG
 
             // Ищем в изображении метку начала
 
-            for (int i_ = 0; i_ < src.Width; i_++)
+            for (int i_ = 25; i_ < src.Width; i_++)
             {
                 worker.ReportProgress((int)((float)i_ / src.Width * 33));
                 if (worker.CancellationPending)
@@ -262,7 +262,7 @@ namespace StenoG
             int end_label_ends_i = 0, end_label_ends_j = 0;
             bool end_label_found = false;
             stop = false;
-            int ii_ = 0, jj_ = 0;
+            int ii_ = 25, jj_ = 0;
             if (start_label_ends_j == src.Height - 1)
             {
                 start_label_ends_j = 0;
@@ -398,6 +398,7 @@ namespace StenoG
 
         private BitArray DecodeSymbol(ref Bitmap src, ref int i, ref int j)
         {
+            
             Color pixelColor = src.GetPixel(i, j);
 
             BitArray colorArray = Byte2Bit(pixelColor.R);
