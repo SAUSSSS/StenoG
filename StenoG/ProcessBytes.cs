@@ -100,7 +100,7 @@ namespace StenoG
             }
 
             Bitmap res = new Bitmap(src);
-            int i = 0, j = 0;
+            int i = 25, j = 25;
 
             // write text into image
             bool stop = false;
@@ -156,20 +156,30 @@ namespace StenoG
             }
             fs.Close();
         }
+        Random rand = new Random();
 
         private void EncodeSymbol(ref Bitmap src, ref Bitmap res,
             ref int i, ref int j, ref int index, byte byte_)
         {
+          
+            
+           // Byte[] b = new Byte[2];
+            //Console.WriteLine(rand.Next(0, 2));
+
             Color pixelColor = src.GetPixel(i, j);
             BitArray colorArray = Byte2Bit(pixelColor.R);
             BitArray messageArray = Byte2Bit(byte_);
             colorArray[0] = messageArray[0];
             colorArray[1] = messageArray[1];
+            colorArray[2] = messageArray[2];
+
+  
+
             byte newR = Bit2Byte(colorArray);
 
             colorArray = Byte2Bit(pixelColor.G);
-            colorArray[0] = messageArray[2];
-            colorArray[1] = messageArray[3];
+            colorArray[0] = messageArray[3];
+            colorArray[1] = (rand.Next(0, 2) > 0) ? true : false;
             colorArray[2] = messageArray[4];
             byte newG = Bit2Byte(colorArray);
 
@@ -394,12 +404,11 @@ namespace StenoG
             BitArray messageArray = Byte2Bit(pixelColor.R);
             messageArray[0] = colorArray[0];
             messageArray[1] = colorArray[1];
+            messageArray[2] = colorArray[2];
 
             colorArray = Byte2Bit(pixelColor.G);
-            messageArray[2] = colorArray[0];
-            messageArray[3] = colorArray[1];
+            messageArray[3] = colorArray[0];
             messageArray[4] = colorArray[2];
-
             colorArray = Byte2Bit(pixelColor.B);
             messageArray[5] = colorArray[0];
             messageArray[6] = colorArray[1];

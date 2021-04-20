@@ -402,5 +402,10 @@ namespace StenoG
             }
             progressBar1.Value = 0;
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
