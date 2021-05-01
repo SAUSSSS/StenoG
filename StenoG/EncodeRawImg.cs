@@ -18,6 +18,7 @@ namespace StenoG
         {
             process_bytes = new ProcessBytes();
             image_raw = process_bytes.EncodeRawImage(sourceImage, ref worker);
+
             return image_raw;
         }
     }

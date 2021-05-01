@@ -90,6 +90,9 @@ namespace StenoG
 
         public static long text_size = 0;
         byte[] input_text_byte_list;
+
+
+        Random rand = new Random();
         public Bitmap EncodeRawImage(Bitmap src, ref BackgroundWorker worker)
         {
             ReadText(ref worker);
@@ -99,30 +102,81 @@ namespace StenoG
                 return src;
             }
 
+
+
+
+
             Bitmap res = new Bitmap(src);
             int i = 0, j = 0;
+
+            for (i = 0; i < src.Width; i++)
+            {
+                for (j = 0; j < src.Height; j++)
+                {
+
+                    Color pixelColor = src.GetPixel(i, j);
+                    BitArray colorArray = Byte2Bit(pixelColor.R);
+
+                    colorArray[0] = (rand.Next(0, 2) > 0) ? false : true;
+                    colorArray[1] = (rand.Next(0, 2) > 0) ? true : false;
+                    colorArray[2] = (rand.Next(0, 2) > 0) ? true : false;
+
+                    byte newR = Bit2Byte(colorArray);
+
+                    colorArray = Byte2Bit(pixelColor.G);
+                    colorArray[0] = (rand.Next(0, 2) > 0) ? true : false;
+                    colorArray[1] = (rand.Next(0, 2) > 0) ? false : true;
+                    colorArray[2] = (rand.Next(0, 2) > 0) ? true : false;
+                    byte newG = Bit2Byte(colorArray);
+
+                    colorArray = Byte2Bit(pixelColor.B);
+                    colorArray[0] = (rand.Next(0, 2) > 0) ? false : true;
+                    colorArray[1] = (rand.Next(0, 2) > 0) ? true : false;
+                    colorArray[2] = (rand.Next(0, 2) > 0) ? false : true;
+                    byte newB = Bit2Byte(colorArray);
+                    Color newColor = Color.FromArgb(newR, newG, newB);
+                    res.SetPixel(i, j, newColor);
+                }
+            }
+
 
             // write text into image
             bool stop = false;
             int text_ind = 0;
-            for (i = 25; i < src.Width; i++)
-            {
-                worker.ReportProgress(Clamp((int)((float)i / src.Width * 50 + 50),
-                    0, 100));
-                if (worker.CancellationPending)
-                    return null;
-                for (j = 0; j < src.Height; j++)
+            int click = 0;
+ 
+                for (i = 25; i < src.Width; i++)
                 {
-                    if (text_ind == text_size)
-                    {
-                        stop = true;
-                        break;
-                    }
-                    EncodeSymbol(ref src, ref res, ref i, ref j, ref text_ind,
-                        input_text_byte_list[text_ind]);
+                worker.ReportProgress(Clamp((int)((float)i / src.Width * 50 + 50),
+                        0, 100));
+                    if (worker.CancellationPending)
+                        return null;
+                   
+                        for (j = 0; j < src.Height; j++)
+                        {
+                            if (text_ind == text_size)
+                            {
+                                stop = true;
+                                break;
+                            }
+                    
+                        EncodeSymbol(ref src, ref res, ref i, ref j, ref text_ind,
+                                    input_text_byte_list[text_ind]);
+
+                        }
+                  Console.WriteLine(i);
+                if (i == 25 && click == 0)
+                {
+                    i = -1;
+                    click = 1;
+                   
                 }
+
                 if (stop) break;
-            }
+
+
+                }
+            
             return res;
         }
 
@@ -156,16 +210,14 @@ namespace StenoG
             }
             fs.Close();
         }
-        Random rand = new Random();
+
 
         private void EncodeSymbol(ref Bitmap src, ref Bitmap res,
             ref int i, ref int j, ref int index, byte byte_)
         {
-          
-            
-           // Byte[] b = new Byte[2];
-            //Console.WriteLine(rand.Next(0, 2));
 
+            //Console.WriteLine(rand.Next(0, 2));
+            
             Color pixelColor = src.GetPixel(i, j);
             BitArray colorArray = Byte2Bit(pixelColor.R);
             BitArray messageArray = Byte2Bit(byte_);
@@ -206,7 +258,7 @@ namespace StenoG
 
             // Ищем в изображении метку начала
 
-            for (int i_ = 25; i_ < src.Width; i_++)
+            for (int i_ = 0; i_ < src.Width; i_++)
             {
                 worker.ReportProgress((int)((float)i_ / src.Width * 33));
                 if (worker.CancellationPending)
@@ -262,7 +314,7 @@ namespace StenoG
             int end_label_ends_i = 0, end_label_ends_j = 0;
             bool end_label_found = false;
             stop = false;
-            int ii_ = 25, jj_ = 0;
+            int ii_ = 0, jj_ = 0;
             if (start_label_ends_j == src.Height - 1)
             {
                 start_label_ends_j = 0;
@@ -373,8 +425,10 @@ namespace StenoG
                 {
                     if (message_ind > text_size_local - 1)
                     {
+                        
                         break;
                         stop = true;
+
                     }
                     message[message_ind] = Bit2Byte(DecodeSymbol(ref src, ref i_, ref j_));
                     str_message = Encoding.ASCII.GetString(message); // UTF8 // ASCII
@@ -398,7 +452,7 @@ namespace StenoG
 
         private BitArray DecodeSymbol(ref Bitmap src, ref int i, ref int j)
         {
-            
+            Console.WriteLine(i);
             Color pixelColor = src.GetPixel(i, j);
 
             BitArray colorArray = Byte2Bit(pixelColor.R);

@@ -72,7 +72,8 @@ namespace StenoG
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1713, 28);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1508, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -82,47 +83,50 @@ namespace StenoG
             this.openToolStripMenuItem,
             this.closeToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             this.fileToolStripMenuItem.Click += new System.EventHandler(this.fileToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(128, 26);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(128, 26);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(16, 52);
+            this.pictureBox1.Location = new System.Drawing.Point(5, 42);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(400, 400);
+            this.pictureBox1.Size = new System.Drawing.Size(366, 386);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(447, 52);
+            this.pictureBox2.Location = new System.Drawing.Point(391, 42);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(400, 400);
+            this.pictureBox2.Size = new System.Drawing.Size(366, 386);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 2;
             this.pictureBox2.TabStop = false;
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(870, 52);
+            this.pictureBox3.Location = new System.Drawing.Point(761, 42);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(400, 400);
+            this.pictureBox3.Size = new System.Drawing.Size(366, 386);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox3.TabIndex = 3;
             this.pictureBox3.TabStop = false;
@@ -130,18 +134,21 @@ namespace StenoG
             // 
             // pictureBox4
             // 
-            this.pictureBox4.Location = new System.Drawing.Point(1301, 52);
+            this.pictureBox4.Location = new System.Drawing.Point(1131, 42);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(400, 400);
+            this.pictureBox4.Size = new System.Drawing.Size(366, 386);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox4.TabIndex = 4;
             this.pictureBox4.TabStop = false;
+            this.pictureBox4.Click += new System.EventHandler(this.pictureBox4_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(16, 511);
+            this.button1.Location = new System.Drawing.Point(10, 488);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(147, 33);
+            this.button1.Size = new System.Drawing.Size(110, 27);
             this.button1.TabIndex = 5;
             this.button1.Text = "ShowRGB";
             this.button1.UseVisualStyleBackColor = true;
@@ -149,9 +156,10 @@ namespace StenoG
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(729, 627);
+            this.button2.Location = new System.Drawing.Point(545, 582);
+            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(89, 36);
+            this.button2.Size = new System.Drawing.Size(67, 29);
             this.button2.TabIndex = 6;
             this.button2.Text = "STOP";
             this.button2.UseVisualStyleBackColor = true;
@@ -159,9 +167,10 @@ namespace StenoG
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(169, 511);
+            this.button3.Location = new System.Drawing.Point(125, 488);
+            this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(160, 33);
+            this.button3.Size = new System.Drawing.Size(120, 27);
             this.button3.TabIndex = 7;
             this.button3.Text = "Encod RAW Image";
             this.button3.UseVisualStyleBackColor = true;
@@ -169,9 +178,10 @@ namespace StenoG
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(335, 511);
+            this.button4.Location = new System.Drawing.Point(250, 488);
+            this.button4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(161, 33);
+            this.button4.Size = new System.Drawing.Size(121, 27);
             this.button4.TabIndex = 8;
             this.button4.Text = "Encode Noised Image";
             this.button4.UseVisualStyleBackColor = true;
@@ -179,9 +189,10 @@ namespace StenoG
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(16, 566);
+            this.button5.Location = new System.Drawing.Point(10, 532);
+            this.button5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(147, 33);
+            this.button5.Size = new System.Drawing.Size(110, 27);
             this.button5.TabIndex = 9;
             this.button5.Text = "Load Original";
             this.button5.UseVisualStyleBackColor = true;
@@ -189,9 +200,10 @@ namespace StenoG
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(502, 511);
+            this.button6.Location = new System.Drawing.Point(375, 488);
+            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(142, 33);
+            this.button6.Size = new System.Drawing.Size(106, 27);
             this.button6.TabIndex = 10;
             this.button6.Text = "Make LSB";
             this.button6.UseVisualStyleBackColor = true;
@@ -199,9 +211,10 @@ namespace StenoG
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(502, 566);
+            this.button7.Location = new System.Drawing.Point(375, 532);
+            this.button7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(142, 33);
+            this.button7.Size = new System.Drawing.Size(106, 27);
             this.button7.TabIndex = 11;
             this.button7.Text = "Decode image";
             this.button7.UseVisualStyleBackColor = true;
@@ -209,9 +222,10 @@ namespace StenoG
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(169, 566);
+            this.button8.Location = new System.Drawing.Point(125, 532);
+            this.button8.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(160, 33);
+            this.button8.Size = new System.Drawing.Size(120, 27);
             this.button8.TabIndex = 12;
             this.button8.Text = "Load Raw Image";
             this.button8.UseVisualStyleBackColor = true;
@@ -219,9 +233,10 @@ namespace StenoG
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(335, 566);
+            this.button9.Location = new System.Drawing.Point(250, 532);
+            this.button9.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(161, 33);
+            this.button9.Size = new System.Drawing.Size(121, 27);
             this.button9.TabIndex = 13;
             this.button9.Text = "Load Noised Image";
             this.button9.UseVisualStyleBackColor = true;
@@ -229,9 +244,10 @@ namespace StenoG
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(650, 511);
+            this.button10.Location = new System.Drawing.Point(486, 488);
+            this.button10.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(168, 33);
+            this.button10.Size = new System.Drawing.Size(126, 27);
             this.button10.TabIndex = 14;
             this.button10.Text = "Show RGB Inverted";
             this.button10.UseVisualStyleBackColor = true;
@@ -239,9 +255,10 @@ namespace StenoG
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(650, 566);
+            this.button11.Location = new System.Drawing.Point(486, 532);
+            this.button11.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(168, 33);
+            this.button11.Size = new System.Drawing.Size(126, 27);
             this.button11.TabIndex = 15;
             this.button11.Text = "Difference with origin";
             this.button11.UseVisualStyleBackColor = true;
@@ -249,9 +266,10 @@ namespace StenoG
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(16, 627);
+            this.progressBar1.Location = new System.Drawing.Point(10, 582);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(688, 36);
+            this.progressBar1.Size = new System.Drawing.Size(516, 29);
             this.progressBar1.TabIndex = 16;
             // 
             // statusStrip1
@@ -259,9 +277,10 @@ namespace StenoG
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 666);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 620);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1713, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 10, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(1508, 22);
             this.statusStrip1.TabIndex = 17;
             this.statusStrip1.Text = "statusStrip1";
             this.statusStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.statusStrip1_ItemClicked);
@@ -269,7 +288,7 @@ namespace StenoG
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 16);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
             // 
             // backgroundWorker1
             // 
@@ -321,9 +340,9 @@ namespace StenoG
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1713, 688);
+            this.ClientSize = new System.Drawing.Size(1508, 642);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.button11);
@@ -343,6 +362,7 @@ namespace StenoG
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
             this.Text = "StenoG";
             this.Load += new System.EventHandler(this.Form1_Load);
