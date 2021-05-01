@@ -145,7 +145,7 @@ namespace StenoG
             int text_ind = 0;
             int click = 0;
  
-                for (i = 25; i < src.Width; i++)
+                for (i = 0; i < src.Width; i++)
                 {
                 worker.ReportProgress(Clamp((int)((float)i / src.Width * 50 + 50),
                         0, 100));
@@ -154,25 +154,21 @@ namespace StenoG
                    
                         for (j = 0; j < src.Height; j++)
                         {
-                            if (text_ind == text_size)
+                            if(click > 24)
                             {
-                                stop = true;
-                                break;
+                                if(text_ind < text_size)
+                                 {
+                                    EncodeSymbol(ref src, ref res, ref i, ref j, ref text_ind,
+                                         input_text_byte_list[text_ind]);
+                            
+                                 }
                             }
-                    
-                        EncodeSymbol(ref src, ref res, ref i, ref j, ref text_ind,
-                                    input_text_byte_list[text_ind]);
-
+                        click++;    
                         }
-                  Console.WriteLine(i);
-                if (i == 25 && click == 0)
-                {
-                    i = -1;
-                    click = 1;
-                   
-                }
+                  
+    
 
-                if (stop) break;
+                    if (stop) break;
 
 
                 }
@@ -425,9 +421,9 @@ namespace StenoG
                 {
                     if (message_ind > text_size_local - 1)
                     {
-                        
-                        break;
                         stop = true;
+                        break;
+                      
 
                     }
                     message[message_ind] = Bit2Byte(DecodeSymbol(ref src, ref i_, ref j_));
@@ -452,7 +448,7 @@ namespace StenoG
 
         private BitArray DecodeSymbol(ref Bitmap src, ref int i, ref int j)
         {
-            Console.WriteLine(i);
+            
             Color pixelColor = src.GetPixel(i, j);
 
             BitArray colorArray = Byte2Bit(pixelColor.R);
